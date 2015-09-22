@@ -10,6 +10,7 @@ import debug from '../components/debug';
 class Resource  {
     getUrl(params = {}, additionUrl = '') {
         params.v = '5.37';
+        params.lang = 'en';
         let url = this.url + additionUrl,
             newUrl,
             queryParams = {};

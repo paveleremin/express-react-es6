@@ -164,6 +164,14 @@ export default React.createClass({
                                 <td><b>Followers:</b></td>
                                 <td>{ user.counters.followers }</td>
                             </tr>
+                            <tr>
+                                <td><i className="fa fa-vk"></i></td>
+                                <td>
+                                    <a href={'https://vk.com/id' + user.id } target="_blank">
+                                        vk.com/id{ user.id }
+                                    </a>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

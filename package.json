@@ -54,5 +54,8 @@
     "webpack-dev-server": "^1.11.0",
     "webpack-error-notification": "^0.1.4",
     "webpack-stats-plugin": "^0.1.0"
+  },
+  "engines": {
+    "node": "0.10.x"
   }
 }

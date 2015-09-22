@@ -1,24 +1,29 @@
 import React from 'react';
-import {Navigation, Link, State} from 'react-router';
+import {State} from 'react-router';
 
+import moment from 'moment';
+
+import CustomLink from '../user-details/user-details-link';
 import initDataMixin from '../components/init-data-mixin';
 import {UserApi} from '../_configuration/resources';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import Loader from '../loader/loader';
 
-const UserDetailsView = React.createClass({
+export default React.createClass({
     mixins: [
         initDataMixin,
-        Navigation,
         State
     ],
 
     statics: {
         getInitData(params) {
             return {
-                user: UserApi.get(params),
-                repos: UserApi.repos(params)
+                user: UserApi.get(params.id, 'photo_200,bdate,online,last_seen,counters,bdate'),
+                friends: UserApi.friends(params.id, {
+                    order: 'rand',
+                    fields: 'photo_50'
+                })
             };
         }
     },
@@ -26,7 +31,7 @@ const UserDetailsView = React.createClass({
     getInitialState() {
         return {
             user: null,
-            repos: null
+            friends: null
         };
     },
 
@@ -35,33 +40,102 @@ const UserDetailsView = React.createClass({
             const params = this.getParams();
 
             if (!this.state.user) {
-                UserApi.get(params).then((user) => {
+                UserApi.get(params.id, 'photo_200,bdate,online,last_seen,counters,bdate').then((user) => {
                     this.setState({
                         user: user
                     });
                 });
             }
-            if (!this.state.repos) {
-                UserApi.repos(params).then((repos) => {
+            if (!this.state.friends) {
+                UserApi.friends(params.id, {
+                    order: 'rand',
+                    fields: 'photo_50'
+                }).then((friends) => {
                     this.setState({
-                        repos: repos
+                        friends: friends
                     });
                 });
             }
         });
     },
 
+    renderOnline(user) {
+        if (!user.online) {
+            return <small className="online-status">
+                { moment.utc(user.last_seen.time * 1000).format('LLL') }
+            </small>;
+        }
+        return <span className="online-status">
+            { user.online_mobile && <i className="fa fa-mobile"></i> }
+            Online
+        </span>;
+    },
+
+    renderFriends(friends) {
+        if (!friends.count) {
+            return '';
+        }
+
+        const renderOthers = (friends) => {
+            if (friends.count <= friends.items.length) {
+                return '';
+            }
+            return <li className="friends-others">
+                <div>
+                    and<br/>
+                    { friends.count-friends.items.length }<br/>
+                    others
+                </div>
+            </li>;
+        };
+
+        return <div>
+            <h3>
+                Friends
+            </h3>
+            <ul className="list-inline">
+                { friends.items.map((user) =>
+                    <li key={ user.id }>
+                        <CustomLink to="user-details" params={ user }>
+                            <img
+                                src={ user.photo_50 }
+                                className="img-responsive"
+                                alt=""/>
+                        </CustomLink>
+                    </li>
+                ) }
+                { renderOthers(friends) }
+            </ul>
+        </div>;
+    },
+
+
+
     renderDetails() {
-        const {user, repos} = this.state;
-        if (!user || !repos) {
+        const {user, friends} = this.state;
+        if (!user || !friends) {
             return <Loader/>;
         }
 
+        const bDate = (bdate) => {
+            if (!bdate) {
+                return '?';
+            }
+            if (bdate.split('.').length == 2) {
+                return moment(bdate, 'D.M').format('MMMM D');
+            }
+            return moment(bdate, 'D.M.YYYY').format('MMMM D, YYYY');
+        };
+
         return <div>
+            <h2 className="mt0">
+                { user.first_name+' '+user.last_name }
+                { this.renderOnline(user) }
+            </h2>
             <div className="row mb20">
                 <div className="col-xs-4">
                     <img
-                        src={ user.avatar_url }
+                        src={ user.photo_200 || 'http://vk.com/images/camera_a.gif' }
                         className="img-responsive"
                         alt=""/>
                 </div>
@@ -69,47 +143,32 @@ const UserDetailsView = React.createClass({
                     <table className="table">
                         <thead>
                             <tr>
-                                <td><b>Name:</b></td>
-                                <td>{ user.name }</td>
+                                <td><b>Birth date:</b></td>
+                                <td>{ bDate(user.bdate) }</td>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><b>Login:</b></td>
-                                <td>{ user.login }</td>
+                                <td><b>Photos:</b></td>
+                                <td>{ user.counters.photos }</td>
                             </tr>
                             <tr>
-                                <td><b>Email:</b></td>
-                                <td>{ user.email }</td>
+                                <td><b>Videos:</b></td>
+                                <td>{ user.counters.videos }</td>
+                            </tr>
+                            <tr>
+                                <td><b>Audios:</b></td>
+                                <td>{ user.counters.audios }</td>
+                            </tr>
+                            <tr>
+                                <td><b>Followers:</b></td>
+                                <td>{ user.counters.followers }</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-
-            <h2>
-                Repositories
-            </h2>
-
-            <table className="table table-hover">
-                <thead>
-                    { repos.map((repo) =>
-                        <tr key={ repo.id }>
-                            <td>
-                              { repo.name }
-                            </td>
-                            <td>
-                                <Link
-                                    to="repo-details"
-                                    params={ {userLogin: user.login, repoName: repo.name} }
-                                    className="btn btn-xs btn-primary">
-                                    Commits
-                                </Link>
-                            </td>
-                        </tr>
-                    ) }
-                </thead>
-            </table>
+            { this.renderFriends(friends) }
         </div>;
     },
 
@@ -117,18 +176,9 @@ const UserDetailsView = React.createClass({
         return <div id="page">
             <Header/>
             <div className="container" id="content">
-                <h2 className="mt0">
-                    User
-                    <Link to="users" className="btn btn-link btn-back">
-                        <i className="fa fa-reply"></i>
-                        Back to users
-                    </Link>
-                </h2>
                 { this.renderDetails() }
             </div>
             <Footer/>
         </div>;
     }
 });
-
-export default UserDetailsView;

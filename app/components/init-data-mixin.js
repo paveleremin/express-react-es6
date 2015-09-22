@@ -1,4 +1,4 @@
-const initDataMixin = {
+export default {
     setStateFromInitData(callback) {
         const isServer = typeof window == 'undefined';
         const initData = isServer
@@ -14,5 +14,3 @@ const initDataMixin = {
         initData: {}
     }
 };
-
-export default initDataMixin;

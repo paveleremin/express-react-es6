@@ -1,0 +1,35 @@
+a.disabled {
+    cursor: not-allowed;
+}
+
+.btn-back {
+    float: right;
+    .fa {
+        margin-right: 5px;
+    }
+}
+
+.table.table-list {
+    tr td {
+        vertical-align: middle;
+        padding: 0;
+        a {
+            display: block;
+            padding: 8px;
+            color: @text-color;
+            &:hover {
+                text-decoration: none;
+            }
+        }
+    }
+    tr:first-child td {
+        border-top: 0;
+    }
+}
+
+.online-status {
+    color: @text-muted;
+    .fa {
+        margin-right: 5px;
+    }
+}

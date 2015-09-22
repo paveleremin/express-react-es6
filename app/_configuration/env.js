@@ -1,5 +1,3 @@
-const config = {
-    apiBase: 'https://api.github.com'
+export default {
+    apiBase: 'https://api.vk.com/method'
 };
-
-export default config;

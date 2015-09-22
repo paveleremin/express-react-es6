@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Loader = React.createClass({
+export default React.createClass({
     render() {
         return <div className="loading-block">
             <div>Loading...</div>
@@ -8,5 +8,3 @@ const Loader = React.createClass({
         </div>;
     }
 });
-
-export default Loader;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const HeaderView = React.createClass({
+export default React.createClass({
     render() {
         return <div id="footer">
             <div className="container">
@@ -9,5 +9,3 @@ const HeaderView = React.createClass({
         </div>;
     }
 });
-
-export default HeaderView;

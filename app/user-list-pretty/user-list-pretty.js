@@ -17,7 +17,7 @@ export default React.createClass({
     statics: {
         getInitData() {
             return {
-                users: UserApi.rand('photo_50,bdate,online')
+                users: UserApi.randPretty('photo_50,bdate,online')
             };
         }
     },
@@ -31,7 +31,7 @@ export default React.createClass({
     componentWillMount() {
         this.setStateFromInitData(() => {
             if (!this.state.users) {
-                UserApi.rand('photo_50,bdate,online').then((users) => {
+                UserApi.randPretty('photo_50,bdate,online').then((users) => {
                     this.setState({
                         users: users
                     });

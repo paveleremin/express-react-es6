@@ -1,8 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router';
-import CustomLink from './header-custom-link';
+import CustomLink from './header-link';
 
-const HeaderView = React.createClass({
+export default React.createClass({
     render() {
         return <div id="header">
             <div className="navbar navbar-inverse">
@@ -13,16 +13,15 @@ const HeaderView = React.createClass({
                         </Link>
                     </div>
                     <ul className="nav navbar-nav">
-                        <li>
-                            <CustomLink to="users">
-                                Users
-                            </CustomLink>
-                        </li>
+                        <CustomLink to="users">
+                            Random users
+                        </CustomLink>
+                        <CustomLink to="pretty">
+                            Pretty girls
+                        </CustomLink>
                     </ul>
                 </div>
             </div>
         </div>;
     }
 });
-
-export default HeaderView;

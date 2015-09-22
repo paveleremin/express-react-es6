@@ -2,7 +2,7 @@ import React from 'react';
 import {RouteHandler} from 'react-router';
 import {State} from 'react-router';
 
-const App = React.createClass({
+export default React.createClass({
     mixins: [
         State
     ],
@@ -10,5 +10,3 @@ const App = React.createClass({
         return <RouteHandler ref="handler" key={ this.getPathname() }/>;
     }
 });
-
-export default App;

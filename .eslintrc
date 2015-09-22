@@ -1,0 +1,34 @@
+{
+    "extends": "eslint:recommended",
+    "rules":{
+        // Best practices
+        "curly": 2, // never omit curly braces
+        // Style
+        "eol-last": 2, // enforce newlines at the end of files
+        "indent": 2, // specify 4 spaces width for intenting your code
+        "no-lonely-if": 2, // disallow if as the only statement in an else block
+        "no-spaced-func": 2, // disallow space between function identifier and application. no: fn (), yes: fn()
+        "quotes": [2, "single"], // allow only double quotes
+        "semi": [2, "always"], // semicolons must be used any place where they are valid
+        "space-before-blocks": 2,    // require a space before blocks
+        "arrow-spacing": 2, // require space before/after arrow function's arrow
+        "no-var": 2, // require let or const instead of var
+        "prefer-const": 2, // suggest using const declaration for variables that are never modified after declared
+        "react/jsx-curly-spacing": [2, "always"],
+        "react/jsx-no-duplicate-props": 2,
+        "react/jsx-no-undef": 2,
+        "jsx-quotes": 2,
+        "react/jsx-uses-react": 2,
+        "react/no-danger": 2,
+        "react/no-unknown-property": 2,
+        "react/self-closing-comp": 2,
+        "react/sort-comp": 2
+    },
+    "env": {
+        "browser": true,
+        "node": true,
+        "es6": true
+    },
+    "parser": "babel-eslint",
+    "plugins": ["react"]
+}

@@ -135,7 +135,7 @@ export default React.createClass({
             <div className="row mb20">
                 <div className="col-xs-4">
                     <img
-                        src={ user.photo_200 || 'http://vk.com/images/camera_a.gif' }
+                        src={ user.photo_200 || 'https://vk.com/images/camera_a.gif' }
                         className="img-responsive"
                         alt=""/>
                 </div>

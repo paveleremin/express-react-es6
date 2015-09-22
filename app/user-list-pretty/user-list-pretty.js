@@ -63,7 +63,7 @@ export default React.createClass({
                         <td>
                             <CustomLink to="user-details" params={user}>
                                 <img
-                                    src={ user.photo_50 }
+                                    src={ user.photo_50.replace('http:', 'https:') }
                                     className="img50"
                                     alt=""/>
                             </CustomLink>

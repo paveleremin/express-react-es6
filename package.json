@@ -33,7 +33,7 @@
     "serialize-javascript": "^1.1.2",
     "serve-favicon": "^2.3.0",
     "serve-static": "^1.10.0",
-    "superagent": "~1.4.0"
+    "superagent": "~1.4.0",
     "less": "^2.5.1",
     "less-loader": "^2.2.1",
     "debug": "^2.2.0",

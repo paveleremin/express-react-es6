@@ -30,6 +30,7 @@
     "cookie-parser": "^1.4.0",
     "css-loader": "^0.18.0",
     "debug": "^2.2.0",
+    "es6-promise": "^3.0.2",
     "eslint": "^1.5.0",
     "eslint-plugin-react": "^3.4.2",
     "express": "4.13.3",

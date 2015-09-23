@@ -61,11 +61,9 @@ export default React.createClass({
 
     renderOnline(user) {
         if (!user.online) {
-            return <small className="online-status">
-                { moment.utc(user.last_seen.time * 1000).format('LLL') }
-            </small>;
+            return moment.utc(user.last_seen.time * 1000).format('LLL');
         }
-        return <span className="online-status">
+        return <span>
             { user.online_mobile && <i className="fa fa-mobile"></i> }
             Online
         </span>;
@@ -128,19 +126,25 @@ export default React.createClass({
         };
 
         return <div>
-            <h2 className="mt0">
-                { user.first_name+' '+user.last_name }
-                { this.renderOnline(user) }
-            </h2>
+            <div className="row">
+                <div className="col-sm-8">
+                    <h2 className="mt0 user-name">
+                        { user.first_name+' '+user.last_name }
+                    </h2>
+                </div>
+                <div className="col-sm-4 text-right user-online online-status">
+                    { this.renderOnline(user) }
+                </div>
+            </div>
             <div className="row mb20">
-                <div className="col-xs-4">
+                <div className="col-sm-4">
                     <img
                         src={ user.photo_200 || 'http://vk.com/images/camera_a.gif' }
                         className="img-responsive"
                         alt=""/>
                 </div>
-                <div className="col-xs-8">
-                    <table className="table">
+                <div className="col-sm-8">
+                    <table className="table mb0">
                         <thead>
                             <tr>
                                 <td><b>Birth date:</b></td>
@@ -183,7 +187,7 @@ export default React.createClass({
     render() {
         return <div id="page">
             <Header/>
-            <div className="container" id="content">
+            <div className="container user-details" id="content">
                 { this.renderDetails() }
             </div>
             <Footer/>

@@ -87,7 +87,7 @@ export default React.createClass({
     render() {
         return <div id="page">
             <Header/>
-            <div className="container" id="content">
+            <div className="container user-list-pretty" id="content">
                 { this.renderList() }
             </div>
             <Footer/>

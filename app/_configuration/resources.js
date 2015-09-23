@@ -2,7 +2,7 @@ import superagent from 'superagent';
 if (process.env.BROWSER) {
     require('superagent-jsonp')(superagent);
 }
-import {sample, random} from 'lodash';
+import {sample, random, assign} from 'lodash';
 import config from './env';
 
 import debug from '../components/debug';
@@ -68,7 +68,7 @@ class User extends Resource {
     }
 
     friends(id, params, limit = 10) {
-        Object.assign(params, {
+        assign(params, {
             user_id: id,
             count: limit
         });

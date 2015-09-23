@@ -1,5 +1,5 @@
 ### Demo
-https://express-react-es6.herokuapp.com
+http://express-react-es6.herokuapp.com
 
 ### Install and launch the app
 ```

@@ -135,7 +135,7 @@ export default React.createClass({
             <div className="row mb20">
                 <div className="col-xs-4">
                     <img
-                        src={ user.photo_200 || 'https://vk.com/images/camera_a.gif' }
+                        src={ user.photo_200 || 'http://vk.com/images/camera_a.gif' }
                         className="img-responsive"
                         alt=""/>
                 </div>
@@ -167,7 +167,7 @@ export default React.createClass({
                             <tr>
                                 <td><i className="fa fa-vk"></i></td>
                                 <td>
-                                    <a href={'https://vk.com/id' + user.id } target="_blank">
+                                    <a href={'http://vk.com/id' + user.id } target="_blank">
                                         vk.com/id{ user.id }
                                     </a>
                                 </td>

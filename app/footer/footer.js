@@ -9,7 +9,7 @@ export default React.createClass({
                         &copy; App
                     </div>
                     <div className="col-xs-6 text-rigth small">
-                        <a href="https://github.com/paveleremin/express-react-es6" target="_blank">
+                        <a href="http://github.com/paveleremin/express-react-es6" target="_blank">
                             github.com/paveleremin/express-react-es6
                         </a>
                     </div>

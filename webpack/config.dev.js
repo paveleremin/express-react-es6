@@ -42,6 +42,8 @@ const config = {
         }]
     },
     plugins: [
+        // use only one 'en-gb' locale from momentjs
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/),
 
         new webpack.HotModuleReplacementPlugin(),
         new webpack.DefinePlugin({

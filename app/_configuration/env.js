@@ -1,3 +1,3 @@
 export default {
-    apiBase: 'https://api.vk.com/method'
+    apiBase: 'http://api.vk.com/method'
 };

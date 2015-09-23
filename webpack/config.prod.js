@@ -41,6 +41,9 @@ module.exports = {
         // clean dist directory
         new CleanPlugin('./static/dist', path.join(__dirname, '..')),
 
+        // use only one 'en-gb' locale from momentjs
+        new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en-gb/),
+
         // css files from the extract-text-plugin loader
         new ExtractTextPlugin('[name]-[chunkhash].css'),
 

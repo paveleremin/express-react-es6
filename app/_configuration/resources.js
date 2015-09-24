@@ -116,6 +116,18 @@ class User extends Resource {
             resolve(data.body.response);
         });
     }
+
+    photos(id, albumId = 'wall') {
+        const params = {
+            album_id: albumId,
+            owner_id: id
+        };
+        const url = this.getUrl(params, '/photos.get');
+        return super.get(url, (data, resolve) => {
+            resolve(data.body.response);
+        });
+
+    }
 }
 
 

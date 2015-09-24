@@ -28,18 +28,6 @@ export default React.createClass({
         };
     },
 
-    componentWillMount() {
-        this.setStateFromInitData(() => {
-            if (!this.state.users) {
-                UserApi.rand('photo_50,bdate,online').then((users) => {
-                    this.setState({
-                        users: users
-                    });
-                });
-            }
-        });
-    },
-
     renderOnline(user) {
         if (!user.online) {
             return '';

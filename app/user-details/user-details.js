@@ -35,30 +35,6 @@ export default React.createClass({
         };
     },
 
-    componentWillMount() {
-        this.setStateFromInitData(() => {
-            const params = this.getParams();
-
-            if (!this.state.user) {
-                UserApi.get(params.id, 'photo_200,bdate,online,last_seen,counters,bdate').then((user) => {
-                    this.setState({
-                        user: user
-                    });
-                });
-            }
-            if (!this.state.friends) {
-                UserApi.friends(params.id, {
-                    order: 'random',
-                    fields: 'photo_50'
-                }).then((friends) => {
-                    this.setState({
-                        friends: friends
-                    });
-                });
-            }
-        });
-    },
-
     renderOnline(user) {
         if (!user.online) {
             return moment.utc(user.last_seen.time * 1000).format('LLL');

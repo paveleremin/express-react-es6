@@ -11,28 +11,33 @@ class Resource  {
     getUrl(params = {}, additionUrl = '') {
         params.v = '5.37';
         params.lang = 'en';
+
+        const queryParams = {};
         let url = this.url + additionUrl,
-            newUrl,
-            queryParams = {};
+            newUrl;
+
         for (const key in params) {
             newUrl = url.replace(new RegExp(`:${key}`, 'g'), params[key]);
             if (params[key] && newUrl == url) {
                 queryParams[key] = params[key];
             }
         }
+
         for (const key in queryParams) {
             url += `&${key}=`+queryParams[key];
         }
+
         url = url.replace('&', '?');
         url = url.replace(/\/:[A-z]+/g, '');
         url = url.replace(/\/{2,}$/g, '');
+
         return url;
     }
 
     get(url, callback) {
         const p = new Promise((resolve, reject) => {
             debug('Resource GET request to %s', url);
-            let request = superagent
+            const request = superagent
                 .get(url)
                 .send()
                 .set('Accept', 'application/json');
@@ -86,7 +91,8 @@ class User extends Resource {
             5670993, 77244148, 19581362, 12632556, 4890599, 19460227,
             9216357, 45557, 99668440, 6737291, 63895636, 4199078,
             76455, 18042998, 5781982, 93808169, 7738774, 79201190,
-            9200556, 213086672, 30037100, 33545305, 45374530, 282204321
+            9200556, 213086672, 30037100, 33545305, 45374530, 282204321,
+            213795388
         ], limit);
         const params = {
             fields: fields,
@@ -99,9 +105,9 @@ class User extends Resource {
     }
 
     rand(fields, limit = 10) {
-        let ids = [];
+        const ids = [];
         while (ids.length < limit) {
-            let rand = random(1, 320000000);
+            const rand = random(1, 320000000);
             if (ids.indexOf(rand) != -1) {
                 continue;
             }

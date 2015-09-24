@@ -1,15 +1,15 @@
-﻿import React from 'react';
+import React from 'react';
 import {Link} from 'react-router';
 
 export default class extends Link {
-    render(){
-        let className = null,
-            props = this.props;
+    render() {
+        let className = null;
+        const props = this.props;
         if (this.context.router.isActive(props.to, props.params, props.all)) {
             className = props.activeClassName;
         }
         return <li className={ className }>
-            {super.render()}
+            { super.render() }
         </li>;
     }
-};
+}

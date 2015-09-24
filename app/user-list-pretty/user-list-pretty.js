@@ -1,13 +1,12 @@
 import React from 'react';
 
-import moment from 'moment';
-
 import CustomLink from '../user-details/user-details-link';
 import initDataMixin from '../components/init-data-mixin';
 import {UserApi} from '../_configuration/resources';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import Loader from '../loader/loader';
+import AppActions from '../_configuration/app-actions';
 
 export default React.createClass({
     mixins: [
@@ -44,12 +43,17 @@ export default React.createClass({
             return <Loader/>;
         }
 
+        AppActions.setData({
+            title: 'Pretty girls',
+            description: 'Pretty girls'
+        });
+
         return <table className="table table-hover table-list">
             <tbody>
                 { users.map((user) =>
                     <tr key={ user.id }>
                         <td>
-                            <CustomLink to="user-details" params={user}>
+                            <CustomLink to="user-details" params={ user }>
                                 <img
                                     src={ user.photo_50 }
                                     className="img50"
@@ -57,12 +61,12 @@ export default React.createClass({
                             </CustomLink>
                         </td>
                         <td>
-                            <CustomLink to="user-details" params={user}>
+                            <CustomLink to="user-details" params={ user }>
                                 { user.first_name+' '+user.last_name }
                             </CustomLink>
                         </td>
                         <td>
-                            <CustomLink to="user-details" params={user}>
+                            <CustomLink to="user-details" params={ user }>
                                 { this.renderOnline(user) }
                             </CustomLink>
                         </td>

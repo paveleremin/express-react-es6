@@ -9,6 +9,7 @@ import {UserApi} from '../_configuration/resources';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import Loader from '../loader/loader';
+import AppActions from '../_configuration/app-actions';
 
 export default React.createClass({
     mixins: [
@@ -19,7 +20,7 @@ export default React.createClass({
     statics: {
         getInitData(params) {
             return {
-                user: UserApi.get(params.id, 'photo_200,bdate,online,last_seen,counters,bdate'),
+                user: UserApi.get(params.id, 'photo_200,bdate,online,last_seen,counters,bdate,status'),
                 friends: UserApi.friends(params.id, {
                     order: 'random',
                     fields: 'photo_50'
@@ -89,6 +90,11 @@ export default React.createClass({
             return <Loader/>;
         }
 
+        AppActions.setData({
+            title: `User details: ${user.first_name} ${user.last_name}`,
+            description: user.status
+        });
+
         const bDate = (bdate) => {
             if (!bdate) {
                 return '?';
@@ -145,7 +151,7 @@ export default React.createClass({
                             <tr>
                                 <td><i className="fa fa-vk"></i></td>
                                 <td>
-                                    <a href={'http://vk.com/id' + user.id } target="_blank">
+                                    <a href={ 'http://vk.com/id' + user.id } target="_blank">
                                         vk.com/id{ user.id }
                                     </a>
                                 </td>

@@ -41,6 +41,7 @@ const Html = React.createClass({
             <head>
                 <meta content="text/html;charset=UTF-8" httpEquiv="content-type"/>
                 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no"/>
+                <meta name="google-site-verification" content="tnmEoE_qwJkKV3tLcjmgV2fn61LcunL77pxYvMnxZno"/>
                 <title>{ title }</title>
                 <meta name="description" content={ description }/>
                 { css.map((href, k) => <link href={ href } key={ k } rel="stylesheet" type="text/css"/>) }

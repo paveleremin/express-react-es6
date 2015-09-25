@@ -35,7 +35,7 @@ const Html = React.createClass({
     },
 
     render() {
-        const {initDataJSON, content, title, description} = this.props;
+        const {initDataJSON, content, title, description, pageClassName} = this.props;
 
         return <html>
             <head>
@@ -45,7 +45,7 @@ const Html = React.createClass({
                 <meta name="description" content={ description }/>
                 { css.map((href, k) => <link href={ href } key={ k } rel="stylesheet" type="text/css"/>) }
             </head>
-            <body>
+            <body className={ pageClassName }>
                 <div dangerouslySetInnerHTML={ {__html:content} }/>
                 <script dangerouslySetInnerHTML={ {__html:initDataJSON} }/>
                 { scripts.map((src, i) => <script src={ src } key={ i }/>) }
@@ -64,12 +64,13 @@ function render(req, res, next) {
 
             // wrapp it to get access to store data
             setTimeout(() => {
-                const {title, description} = AppStore.getData();
+                const {title, description, pageClassName} = AppStore.getData();
                 const html = React.renderToStaticMarkup(
                     <Html
                         initDataJSON={ initDataJSON }
                         content={ content }
                         title={ title }
+                        pageClassName={ pageClassName }
                         description={ description }/>
                 );
                 const doctype = '<!DOCTYPE html>';

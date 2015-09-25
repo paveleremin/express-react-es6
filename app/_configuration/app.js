@@ -19,6 +19,9 @@ export default React.createClass({
         if (data.description) {
             document.querySelector('meta[name=description]').content = data.description;
         }
+        if (data.pageClassName) {
+            document.body.className = data.pageClassName;
+        }
     },
 
     render() {

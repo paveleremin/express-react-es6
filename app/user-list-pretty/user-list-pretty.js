@@ -16,7 +16,7 @@ export default React.createClass({
     statics: {
         getInitData() {
             return {
-                users: UserApi.randPretty('photo_50,bdate,online')
+                users: UserApi.randPretty('photo_50,online')
             };
         }
     },
@@ -45,7 +45,8 @@ export default React.createClass({
 
         AppActions.setData({
             title: 'Pretty girls',
-            description: 'Pretty girls'
+            description: 'Pretty girls',
+            pageClassName: 'user-list-pretty'
         });
 
         return <table className="table table-hover table-list">
@@ -79,7 +80,7 @@ export default React.createClass({
     render() {
         return <div id="page">
             <Header/>
-            <div className="container user-list-pretty" id="content">
+            <div className="container" id="content">
                 { this.renderList() }
             </div>
             <Footer/>

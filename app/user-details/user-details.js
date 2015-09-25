@@ -92,7 +92,8 @@ export default React.createClass({
 
         AppActions.setData({
             title: `User details: ${user.first_name} ${user.last_name}`,
-            description: user.status
+            description: user.status,
+            pageClassName: 'user-details'
         });
 
         const bDate = (bdate) => {
@@ -167,7 +168,7 @@ export default React.createClass({
     render() {
         return <div id="page">
             <Header/>
-            <div className="container user-details" id="content">
+            <div className="container" id="content">
                 { this.renderDetails() }
             </div>
             <Footer/>

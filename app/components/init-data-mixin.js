@@ -1,15 +1,14 @@
 export default {
     setStateFromInitData() {
-        const isServer = typeof window == 'undefined';
         // at the serve we got data from initData object
-        if (isServer) {
+        if (!process.env.BROWSER) {
             this.setState(this.constructor.initData);
         }
         // at first render on client we sync data with rendered
-        else if (window.initData) {
+        else if (Object.keys(window.initData).length) {
             this.setState(window.initData);
             // clear it to prevent cache when you press Back button
-            delete window.initData;
+            window.initData = {};
         }
         // when we serf pages as SPA we get data from getInitData()
         else {

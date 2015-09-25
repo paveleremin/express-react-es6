@@ -17,6 +17,35 @@
         margin-top: 8px;
     }
 
+    .photos {
+        display: block;
+        list-style: none;
+        overflow: hidden;
+        padding-left: 0;
+        margin: -5px;
+
+        li {
+            position: relative;
+            display: block;
+            float: left;
+            background-color: #000;
+            width: 130px;
+            height: 130px;
+            margin: 5px;
+        }
+
+        img {
+            display: block;
+
+            position: absolute;
+            margin: auto;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+    }
+
     @media (max-width: @screen-xs-max) {
         .img-responsive {
             width: 100%;

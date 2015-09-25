@@ -123,10 +123,13 @@ class User extends Resource {
         });
     }
 
-    photos(id, albumId = 'wall') {
+    photos(id, albumId = 'profile', limit = 50) {
         const params = {
             album_id: albumId,
-            owner_id: id
+            owner_id: id,
+            rev: 1,
+            photo_sizes: 1,
+            count: limit
         };
         const url = this.getUrl(params, '/photos.get');
         return super.get(url, (data, resolve) => {

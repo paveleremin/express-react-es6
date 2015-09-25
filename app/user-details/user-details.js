@@ -32,8 +32,22 @@ export default React.createClass({
     getInitialState() {
         return {
             user: null,
-            friends: null
+            friends: null,
+            photos: null
         };
+    },
+
+    componentWillMount() {
+        if (!process.env.BROWSER) {
+            return;
+        }
+
+        const params = this.getParams();
+        UserApi.photos(params.id).then((photos) => {
+            this.setState({
+                photos: photos
+            });
+        });
     },
 
     renderOnline(user) {
@@ -44,6 +58,29 @@ export default React.createClass({
             { user.online_mobile && <i className="fa fa-mobile"></i> }
             Online
         </span>;
+    },
+
+    renderPhotos(photos) {
+        if (!photos || !photos.count) {
+            return '';
+        }
+
+        return <div>
+            <h3>
+                Photos
+            </h3>
+            <ul className="photos">
+                { photos.items.map((photo) => {
+                    return photo.sizes.map((size) => {
+                        if (size.type == 'm') {
+                            return <li key={ photo.id }>
+                                <img src={ size.src } alt=""/>
+                            </li>;
+                        }
+                    });
+                }) }
+            </ul>
+        </div>;
     },
 
     renderFriends(friends) {
@@ -85,7 +122,7 @@ export default React.createClass({
     },
 
     renderDetails() {
-        const {user, friends} = this.state;
+        const {user, friends, photos} = this.state;
         if (!user || !friends) {
             return <Loader/>;
         }
@@ -162,6 +199,7 @@ export default React.createClass({
                 </div>
             </div>
             { this.renderFriends(friends) }
+            { this.renderPhotos(photos) }
         </div>;
     },
 

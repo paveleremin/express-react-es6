@@ -2,7 +2,7 @@ import React from 'react';
 
 import CustomLink from '../user-details/user-details-link';
 import initDataMixin from '../components/init-data-mixin';
-import {UserApi} from '../_configuration/resources';
+import { UserApi } from '../_configuration/resources';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import Loader from '../loader/loader';
@@ -54,7 +54,7 @@ export default React.createClass({
                 { users.map((user) =>
                     <tr key={ user.id }>
                         <td>
-                            <CustomLink to="user-details" params={ user }>
+                            <CustomLink to={ `/users/${user.id}` } params={ user }>
                                 <img
                                     src={ user.photo_50 }
                                     className="img50"
@@ -62,12 +62,12 @@ export default React.createClass({
                             </CustomLink>
                         </td>
                         <td>
-                            <CustomLink to="user-details" params={ user }>
+                            <CustomLink to={ `/users/${user.id}` } params={ user }>
                                 { user.first_name+' '+user.last_name }
                             </CustomLink>
                         </td>
                         <td>
-                            <CustomLink to="user-details" params={ user }>
+                            <CustomLink to={ `/users/${user.id}` } params={ user }>
                                 { this.renderOnline(user) }
                             </CustomLink>
                         </td>

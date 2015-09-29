@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
 import AppActions from '../_configuration/app-actions';
 
@@ -21,11 +21,11 @@ export default React.createClass({
                         Sorry, an error has occured, requested page not found!
                     </div>
                     <div className="error-actions">
-                        <Link to="users" className="btn btn-link btn-lg">
+                        <Link to="/users" className="btn btn-link btn-lg">
                             <i className="fa fa-users"></i>
                             Random users
                         </Link>
-                        <Link to="pretty" className="btn btn-link btn-lg">
+                        <Link to="/pretty" className="btn btn-link btn-lg">
                             <i className="fa fa-female"></i>
                             Pretty girls
                         </Link>

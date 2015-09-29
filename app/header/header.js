@@ -7,10 +7,10 @@ export default React.createClass({
             <div className="navbar navbar-inverse">
                 <div className="container">
                     <ul className="nav navbar-nav">
-                        <CustomLink to="users">
+                        <CustomLink to="/" activeClassName="active" onlyActiveOnIndex={ true }>
                             Random users
                         </CustomLink>
-                        <CustomLink to="pretty">
+                        <CustomLink to="/pretty" activeClassName="active">
                             Pretty girls
                         </CustomLink>
                     </ul>

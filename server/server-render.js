@@ -1,8 +1,9 @@
-import React, {PropTypes} from 'react';
-import Router from 'react-router';
+import React, { PropTypes } from 'react';
+import { RoutingContext, match } from 'react-router';
+import createLocation from 'history/lib/createLocation';
 import serialize from 'serialize-javascript';
 
-import routes from './../app/_configuration/routes';
+import createRoutes from './../app/_configuration/routes';
 import getInitData from './server-get-init-data';
 import AppStore from '../app/_configuration/app-store';
 
@@ -45,6 +46,7 @@ const Html = React.createClass({
                 <title>{ title }</title>
                 <meta name="description" content={ description }/>
                 { css.map((href, k) => <link href={ href } key={ k } rel="stylesheet" type="text/css"/>) }
+                <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css"/>
             </head>
             <body className={ pageClassName }>
                 <div dangerouslySetInnerHTML={ {__html:content} }/>
@@ -57,11 +59,13 @@ const Html = React.createClass({
 });
 
 function render(req, res, next) {
-    Router.run(routes, req.url, (Handler, routerState) => {
-        getInitData(routerState).then((initData) => {
+    const location = createLocation(req.url);
+    const routes = createRoutes();
 
+    match({routes, location}, (error, redirectLocation, renderProps) => {
+        getInitData(renderProps).then((initData) => {
             const initDataJSON = 'window.initData='+serialize(initData)+';';
-            const content = React.renderToString(<Handler />);
+            const content = React.renderToString(<RoutingContext {...renderProps}/>);
 
             // wrapp it to get access to store data
             setTimeout(() => {
@@ -77,7 +81,6 @@ function render(req, res, next) {
                 const doctype = '<!DOCTYPE html>';
                 res.send(doctype+html);
             });
-
         }).catch((err) => {
             next(err);
         });

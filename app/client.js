@@ -1,5 +1,5 @@
 import React from 'react';
-import Router from 'react-router';
+import { createHistory } from 'history';
 
 import routes from './_configuration/routes';
 
@@ -7,10 +7,8 @@ import routes from './_configuration/routes';
 import es6Promise from 'es6-promise';
 es6Promise.polyfill();
 
-if (process.env.BROWSER) {
-    require('./_configuration/main.less');
-}
+require('./_configuration/main.less');
 
-Router.run(routes, Router.HistoryLocation, (Handler) => {
-    React.render(<Handler />, document.body);
-});
+const history = createHistory();
+
+React.render(routes(history), document.body);

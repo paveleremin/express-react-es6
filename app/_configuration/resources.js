@@ -2,7 +2,7 @@ import superagent from 'superagent';
 if (process.env.BROWSER) {
     require('superagent-jsonp')(superagent);
 }
-import {sample, random, assign} from 'lodash';
+import { sample, random, assign } from 'lodash';
 import config from './env';
 
 import debug from '../components/debug';
@@ -92,7 +92,7 @@ class User extends Resource {
             9216357, 45557, 99668440, 6737291, 63895636, 4199078,
             76455, 18042998, 5781982, 93808169, 7738774, 79201190,
             9200556, 213086672, 30037100, 33545305, 45374530, 282204321,
-            213795388
+            213795388, 136717137, 107981766, 371565
         ], limit);
         const params = {
             fields: fields,

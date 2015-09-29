@@ -1,13 +1,10 @@
 import React from 'react';
-import {RouteHandler} from 'react-router';
-import {State} from 'react-router';
 
 import Reflux from 'reflux';
 import AppStore from '../_configuration/app-store';
 
 export default React.createClass({
     mixins: [
-        State,
         Reflux.listenTo(AppStore, 'onSetData')
     ],
 
@@ -24,7 +21,13 @@ export default React.createClass({
         }
     },
 
+    getPathname() {
+        return this.props.location.pathname;
+    },
+
     render() {
-        return <RouteHandler ref="handler" key={ this.getPathname() }/>;
+        return React.cloneElement(this.props.children, {
+            key: this.getPathname()
+        });
     }
 });

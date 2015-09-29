@@ -1,4 +1,8 @@
 export default {
+    statics: {
+        initData: {}
+    },
+
     setStateFromInitData() {
         // at the serve we got data from initData object
         if (!process.env.BROWSER) {
@@ -13,7 +17,7 @@ export default {
         // when we serf pages as SPA we get data from getInitData()
         else {
             // some views not used State mixin, because don't have a parametrs in route
-            const params = this.getParams ? this.getParams() : {};
+            const params = this.props.params ? this.props.params : {};
             const promises = this.constructor.getInitData(params);
             const initData = {};
 
@@ -30,10 +34,12 @@ export default {
             });
         }
     },
-    statics: {
-        initData: {}
-    },
+
     componentWillMount() {
+        this.setStateFromInitData();
+    },
+
+    componentWillReceiveProps() {
         this.setStateFromInitData();
     }
 };

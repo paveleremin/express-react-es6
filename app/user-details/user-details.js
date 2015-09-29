@@ -1,20 +1,23 @@
 import React from 'react';
-import {State} from 'react-router';
 
 import moment from 'moment';
 
-import CustomLink from '../user-details/user-details-link';
 import initDataMixin from '../components/init-data-mixin';
-import {UserApi} from '../_configuration/resources';
+import { UserApi } from '../_configuration/resources';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import Loader from '../loader/loader';
 import AppActions from '../_configuration/app-actions';
 
+import FriendsBlock from './user-details-friends';
+let PhotosBlock = null;
+if (process.env.BROWSER) {
+    PhotosBlock = require('./user-details-photos');
+}
+
 export default React.createClass({
     mixins: [
-        initDataMixin,
-        State
+        initDataMixin
     ],
 
     statics: {
@@ -42,7 +45,7 @@ export default React.createClass({
             return;
         }
 
-        const params = this.getParams();
+        const params = this.props.params;
         UserApi.photos(params.id).then((photos) => {
             this.setState({
                 photos: photos
@@ -58,67 +61,6 @@ export default React.createClass({
             { user.online_mobile && <i className="fa fa-mobile"></i> }
             Online
         </span>;
-    },
-
-    renderPhotos(photos) {
-        if (!photos || !photos.count) {
-            return '';
-        }
-
-        return <div>
-            <h3>
-                Photos
-            </h3>
-            <ul className="photos">
-                { photos.items.map((photo) => {
-                    return photo.sizes.map((size) => {
-                        if (size.type == 'm') {
-                            return <li key={ photo.id }>
-                                <img src={ size.src } alt=""/>
-                            </li>;
-                        }
-                    });
-                }) }
-            </ul>
-        </div>;
-    },
-
-    renderFriends(friends) {
-        if (!friends.count) {
-            return '';
-        }
-
-        const renderOthers = (friends) => {
-            if (friends.count <= friends.items.length) {
-                return '';
-            }
-            return <li className="friends-others">
-                <div>
-                    and<br/>
-                    { friends.count-friends.items.length }<br/>
-                    others
-                </div>
-            </li>;
-        };
-
-        return <div>
-            <h3>
-                Friends
-            </h3>
-            <ul className="list-inline">
-                { friends.items.map((user) =>
-                    <li key={ user.id }>
-                        <CustomLink to="user-details" params={ user }>
-                            <img
-                                src={ user.photo_50 }
-                                className="img-responsive"
-                                alt=""/>
-                        </CustomLink>
-                    </li>
-                ) }
-                { renderOthers(friends) }
-            </ul>
-        </div>;
     },
 
     renderDetails() {
@@ -140,7 +82,9 @@ export default React.createClass({
             if (bdate.split('.').length == 2) {
                 return moment(bdate, 'D.M').format('MMMM D');
             }
-            return moment(bdate, 'D.M.YYYY').format('MMMM D, YYYY');
+            const bDateMoment = moment(bdate, 'D.M.YYYY');
+            const age = moment().diff(bDateMoment, 'years');
+            return bDateMoment.format('MMMM D, YYYY') + ` (age ${age})`;
         };
 
         return <div>
@@ -198,8 +142,8 @@ export default React.createClass({
                     </table>
                 </div>
             </div>
-            { this.renderFriends(friends) }
-            { this.renderPhotos(photos) }
+            <FriendsBlock friends={ friends }/>
+            { PhotosBlock && <PhotosBlock photos={ photos }/> }
         </div>;
     },
 

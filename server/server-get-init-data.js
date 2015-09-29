@@ -6,9 +6,9 @@ export default function(routerState) {
         promises;
 
     promises = routerState.routes.reduce((initData, route) => {
-        if (route.handler && route.handler.getInitData) {
+        if (route.component && route.component.getInitData) {
             currentRoute = route;
-            let promises = route.handler.getInitData(routerState.params, routerState.query);
+            let promises = route.component.getInitData(routerState.params, routerState.query);
 
             Object.keys(promises).forEach((key) => {
                 initData[key] = promises[key];
@@ -19,8 +19,8 @@ export default function(routerState) {
 
     Object.keys(promises).forEach((key) => {
         promises[key].then((response) => {
-            if (currentRoute.handler.initData) {
-                currentRoute.handler.initData[key] = response;
+            if (currentRoute.component.initData) {
+                currentRoute.component.initData[key] = response;
             }
             initData[key] = response;
         });

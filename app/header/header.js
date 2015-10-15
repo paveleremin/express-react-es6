@@ -16,13 +16,31 @@ export default React.createClass({
                 <div className="container">
                     <ul className="nav navbar-nav">
                         <CustomLink to="/" activeClassName="active" onlyActiveOnIndex={ true }>
-                            Random users
+                            <span className="hidden-xs">
+                                Random users
+                            </span>
+                            <span className="visible-xs-inline">
+                                <i className="fa fa-users fa-white"></i>
+                                Users
+                            </span>
                         </CustomLink>
                         <CustomLink to="/pretty" activeClassName="active">
-                            Pretty girls
+                            <span className="hidden-xs">
+                                Pretty girls
+                            </span>
+                            <span className="visible-xs-inline">
+                                <i className="fa fa-female fa-white"></i>
+                                Pretty
+                            </span>
                         </CustomLink>
                         <CustomLink to="/recently-viewed" className={ this.showHide() } activeClassName="active">
-                            Recently viewed
+                            <span className="hidden-xs">
+                                Recently viewed
+                            </span>
+                            <span className="visible-xs-inline">
+                                <i className="fa fa-eye fa-white"></i>
+                                Viewed
+                            </span>
                         </CustomLink>
                     </ul>
                 </div>

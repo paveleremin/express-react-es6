@@ -3,11 +3,12 @@ import React from 'react';
 import moment from 'moment';
 
 import initDataMixin from '../components/init-data-mixin';
-import { UserApi } from '../_configuration/resources';
+import UserApi from '../_resources/user';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import Loader from '../loader/loader';
 import AppActions from '../_configuration/app-actions';
+import recentlyViewedService from '../recently-viewed/recently-viewed-service';
 
 import FriendsBlock from './user-details-friends';
 let PhotosBlock = null;
@@ -41,16 +42,17 @@ export default React.createClass({
     },
 
     componentWillMount() {
-        if (!process.env.BROWSER) {
-            return;
-        }
-
         const params = this.props.params;
-        UserApi.photos(params.id).then((photos) => {
-            this.setState({
-                photos: photos
+
+        recentlyViewedService.add(params.id);
+
+        if (process.env.BROWSER) {
+            UserApi.photos(params.id).then((photos) => {
+                this.setState({
+                    photos: photos
+                });
             });
-        });
+        }
     },
 
     renderOnline(user) {

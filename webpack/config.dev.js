@@ -1,20 +1,24 @@
-// This is the webpack config to use during development.
-// It enables the hot module replacement, the source maps and inline CSS styles.
+/* no-console: 0 */
 
-/* eslint no-var: 0, no-console: 0 */
+// This is the webpack config to use during development
+// It enables the hot module replacement, the source maps and inline CSS styles
 
 import path from 'path';
 import webpack from 'webpack';
 import WebpackErrorNotificationPlugin from 'webpack-error-notification';
 
-const host = process.env.HOST || 'localhost';
-const port = (process.env.PORT+1) || 3001;
+import serverConfig from '../server/server-config';
+const host = serverConfig.host == '0.0.0.0'
+    ? 'localhost'
+    : serverConfig.host;
+const port = serverConfig.port + 1;
+
 const dist = path.resolve(__dirname, '../static/dist');
 
-const config = {
+export default {
     devtool: 'source-map',
     entry: [
-        'webpack-dev-server/client?http://'+host+':'+port,
+        `webpack-dev-server/client?http://${host}:${port}`,
         'webpack/hot/only-dev-server',
         './app/client.js'
     ],
@@ -22,7 +26,7 @@ const config = {
         filename: 'bundle.js',
         chunkFilename: '[name].bundle.js',
         path: dist,
-        publicPath: 'http://'+host+':'+port+'/dist/'
+        publicPath: `http://${host}:${port}/dist/`
     },
     module: {
         loaders: [{
@@ -49,12 +53,10 @@ const config = {
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('development'),
-                BROWSER: JSON.stringify(true)
+                BROWSER: JSON.stringify(true),
+                DEBUG: JSON.stringify(process.env.DEBUG)
             }
         }),
         new WebpackErrorNotificationPlugin()
     ]
-
 };
-
-export default config;

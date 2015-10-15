@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import ReactDOMServer from 'react-dom/server';
 import { RoutingContext, match } from 'react-router';
 import createLocation from 'history/lib/createLocation';
 import serialize from 'serialize-javascript';
@@ -10,9 +11,9 @@ import AppStore from '../app/_configuration/app-store';
 const css = [];
 const scripts = [];
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV == 'production') {
     // on production, include scripts and css from the webpack stats
-    const config = require('../webpack/config.prod.js');
+    const config = require('../webpack/config.build.js');
     const stats = require('../static/dist/stats.json');
     scripts.push(`${config.output.publicPath}${stats.main}`);
     css.push(`${config.output.publicPath}${stats.css}`);
@@ -49,8 +50,8 @@ const Html = React.createClass({
                 <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css"/>
             </head>
             <body className={ pageClassName }>
-                <div dangerouslySetInnerHTML={ {__html:content} }/>
                 <script dangerouslySetInnerHTML={ {__html:initDataJSON} }/>
+                <div id="app"><div dangerouslySetInnerHTML={ {__html:content} }/></div>
                 { scripts.map((src, i) => <script src={ src } key={ i }/>) }
             </body>
         </html>;
@@ -62,28 +63,36 @@ function render(req, res, next) {
     const location = createLocation(req.url);
     const routes = createRoutes();
 
-    match({routes, location}, (error, redirectLocation, renderProps) => {
-        getInitData(renderProps).then((initData) => {
-            const initDataJSON = 'window.initData='+serialize(initData)+';';
-            const content = React.renderToString(<RoutingContext {...renderProps}/>);
+    match({routes, location}, (error, redirectLocation, routerState) => {
 
-            // wrapp it to get access to store data
-            setTimeout(() => {
-                const {title, description, pageClassName} = AppStore.getData();
-                const html = React.renderToStaticMarkup(
-                    <Html
-                        initDataJSON={ initDataJSON }
-                        content={ content }
-                        title={ title }
-                        pageClassName={ pageClassName }
-                        description={ description }/>
-                );
-                const doctype = '<!DOCTYPE html>';
-                res.send(doctype+html);
+        if (redirectLocation) {
+            res.redirect(redirectLocation.pathname+redirectLocation.search);
+        }
+        else {
+
+            getInitData(routerState).then((initData) => {
+                const initDataJSON = `window.initData=${serialize(initData)};`;
+                const content = ReactDOMServer.renderToString(<RoutingContext {...routerState}/>);
+
+                // wrapp it to get access to store data
+                setTimeout(() => {
+                    const {title, description, pageClassName} = AppStore.getData();
+                    const html = ReactDOMServer.renderToStaticMarkup(
+                        <Html
+                            initDataJSON={ initDataJSON }
+                            content={ content }
+                            title={ title }
+                            pageClassName={ pageClassName }
+                            description={ description }/>
+                    );
+                    const doctype = '<!DOCTYPE html>';
+                    res.send(doctype+html);
+                });
+            }).catch((err) => {
+                next(err);
             });
-        }).catch((err) => {
-            next(err);
-        });
+
+        }
     });
 }
 

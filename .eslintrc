@@ -13,7 +13,6 @@
         "space-before-blocks": 2,    // require a space before blocks
         "arrow-spacing": 2, // require space before/after arrow function's arrow
         "no-var": 2, // require let or const instead of var
-        "prefer-const": 2, // suggest using const declaration for variables that are never modified after declared
         "react/jsx-curly-spacing": [2, "always"],
         "react/jsx-no-duplicate-props": 2,
         "react/jsx-no-undef": 2,

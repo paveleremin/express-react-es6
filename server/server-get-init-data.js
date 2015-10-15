@@ -1,34 +1,21 @@
-/* eslint prefer-const: 0 */
+import Promise from 'bluebird';
 
-export default function(routerState) {
-    let currentRoute,
-        initData = {},
-        promises;
+export default (routerState) => {
+    let currentRoute;
 
-    promises = routerState.routes.reduce((initData, route) => {
+    const promises = routerState.routes.reduce((promises, route) => {
         if (route.component && route.component.getInitData) {
             currentRoute = route;
-            let promises = route.component.getInitData(routerState.params, routerState.query);
-
-            Object.keys(promises).forEach((key) => {
-                initData[key] = promises[key];
-            });
+            const data = route.component.getInitData(routerState.params, routerState.query);
+            Object.assign(promises, data);
         }
-        return initData;
+        return promises;
     }, {});
 
-    Object.keys(promises).forEach((key) => {
-        promises[key].then((response) => {
-            if (currentRoute.component.initData) {
-                currentRoute.component.initData[key] = response;
-            }
-            initData[key] = response;
-        });
+    return Promise.props(promises).then((result) => {
+        if (currentRoute.component.initData) {
+            currentRoute.component.initData = result;
+        }
+        return result;
     });
-
-    return Promise.all(Object.keys(promises).map((key) => {
-        return promises[key];
-    })).then(() => {
-        return initData;
-    });
-}
+};

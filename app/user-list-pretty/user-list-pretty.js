@@ -2,7 +2,7 @@ import React from 'react';
 
 import CustomLink from '../user-details/user-details-link';
 import initDataMixin from '../components/init-data-mixin';
-import { UserApi } from '../_configuration/resources';
+import UserApi from '../_resources/user';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import Loader from '../loader/loader';

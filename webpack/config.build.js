@@ -1,15 +1,15 @@
-// Webpack config for creating the production bundle.
+/* no-console: 0 */
 
-/* eslint no-var: 0, no-console: 0 */
+// Webpack config for creating the production bundle
 
-var path = require('path');
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
-var CleanPlugin = require('clean-webpack-plugin');
-var strip = require('strip-loader');
+const path = require('path');
+const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
+const CleanPlugin = require('clean-webpack-plugin');
+const strip = require('strip-loader');
 
-var dist = path.resolve(__dirname, '../static/dist');
+const dist = path.resolve(__dirname, '../static/dist');
 
 module.exports = {
     devtool: 'source-map',
@@ -24,7 +24,7 @@ module.exports = {
         loaders: [{
             test: /\.js$/,
             exclude: /node_modules/,
-            loaders: [strip.loader('debug'), 'babel']
+            loaders: [strip.loader('debug', 'console.log'), 'babel']
         }, {
             test: /\.less$/,
             loader: ExtractTextPlugin.extract('style', 'css!autoprefixer?browsers=last 2 version!less')
@@ -50,14 +50,13 @@ module.exports = {
         // set global vars
         new webpack.DefinePlugin({
             'process.env': {
-
                 // Mainly used to require CSS files with webpack, which can happen only on browser
                 // Used as `if (process.env.BROWSER)...`
                 BROWSER: JSON.stringify(true),
-
                 // Useful to reduce the size of client-side libraries, e.g. react
-                NODE_ENV: JSON.stringify('production')
-
+                NODE_ENV: JSON.stringify('production'),
+                // Debug
+                DEBUG: JSON.stringify(process.env.DEBUG)
             }
         }),
 
@@ -72,11 +71,11 @@ module.exports = {
 
         // Write out stats.json file to build directory.
         new StatsWriterPlugin({
-            transform: function (data) {
-                return {
+            transform: (data) => {
+                return JSON.stringify({
                     main: data.assetsByChunkName.main[0],
                     css: data.assetsByChunkName.main[1]
-                };
+                }, null, 2);
             }
         })
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import ReactDom from 'react-dom';
 import { createHistory } from 'history';
 
 import routes from './_configuration/routes';
@@ -11,4 +11,4 @@ require('./_configuration/main.less');
 
 const history = createHistory();
 
-React.render(routes(history), document.body);
+ReactDom.render(routes(history), document.getElementById('app'));

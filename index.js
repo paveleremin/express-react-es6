@@ -1,4 +1,4 @@
-/* eslint no-console: 0, no-var: 0 */
+/* eslint no-console: 0 */
 
 // Register babel to have ES6 support on the server
 require('babel/register');
@@ -6,10 +6,15 @@ require('babel/register');
 // Prevent issues with libraries using this var (see http://tinyurl.com/pcockwk)
 delete process.env.BROWSER;
 
-require('./server/server')(function (app) {
-    console.log('Express %s server listening on %s:%s', app.get('env'), app.get('host'), app.get('port'));
+require('./server/server')((app) => {
+    console.log(
+        'Express %s server listening on http://%s:%s',
+        app.get('env'),
+        app.get('host'),
+        app.get('port')
+    );
 
-    if (app.get('env') === 'development') {
+    if (app.get('env') == 'development') {
         require('./webpack/server')(app);
     }
 

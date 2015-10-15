@@ -17,10 +17,9 @@ export default {
         // when we serf pages as SPA we get data from getInitData()
         else {
             // some views not used State mixin, because don't have a parametrs in route
-            const params = this.props.params ? this.props.params : {};
-            const promises = this.constructor.getInitData(params);
-            const initData = {};
+            const promises = this.constructor.getInitData(this.props.params, this.props.query);
 
+            const initData = {};
             Object.keys(promises).forEach((key) => {
                 promises[key].then((response) => {
                     initData[key] = response;

@@ -7,6 +7,7 @@ import Footer from '../footer/footer';
 import Header from '../header/header';
 import Loader from '../loader/loader';
 import AppActions from '../_configuration/app-actions';
+import recentlyViewedService from './recently-viewed-service';
 
 export default React.createClass({
     mixins: [
@@ -14,9 +15,16 @@ export default React.createClass({
     ],
 
     statics: {
+        onEnter(nextState, replaceState) {
+            const ids = recentlyViewedService.get();
+            if (!ids.length) {
+                replaceState(null, '/');
+            }
+        },
         getInitData() {
+            const ids = recentlyViewedService.get();
             return {
-                users: UserApi.rand('photo_50,online')
+                users: UserApi.query(ids, 'photo_50,online')
             };
         }
     },
